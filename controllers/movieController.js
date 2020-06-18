@@ -1,11 +1,88 @@
-const MovieModel = require('../models/movieModel')
+const Movie = require('../models/movieModel')
 
 class MovieController {
-    static async readMovies(req, res) {
-        // readMovies bellow from model
-        const movies = await MovieModel.readMovies();
-        return res.status(200).json(movies)
+    // cara 1
+    static readMovies(req, res) {
+       Movie.readMovies()
+            .then(data => {
+                return res.status(200).json({ 
+                    movies: data
+                })
+            })
+            .catch(err => {
+                return res.status(500).json(err)
+            })
     }
+
+    static readMovieById(req, res) {
+        let { movieId } = req.params
+        Movie.readMovieById(movieId)
+            .then(data => {
+                return res.status(200).json({
+                    movie: data
+                })
+            })
+            .catch(err => {
+                return res.status(500).json(err)
+            })
+    }
+
+    static addMovie(req, res) {
+        let { title, overview, poster_path, popularity, tags } = req.body
+        let input = {
+            title,
+            overview,
+            poster_path,
+            popularity: Number(popularity),
+            tags: tags.split(',')
+        }
+        Movie.addMovie(input)
+            .then(data => {
+                return res.status(201).json({
+                    movie: data.ops
+                })
+            })
+            .catch(err => {
+                return res.status(500).json(err)
+            })
+    }
+
+
+    // catatan pribadi
+    // cara 2 dengna async
+    // static async readMovies(req, res) {
+    //     try {
+    //         // readMovies bellow from model
+    //         const movies = await Movie.readMovies();
+    //         return res.status(200).json(movies)
+    //     } catch (err) {
+    //         return res.status(500).json(err)
+    //     }
+    // }
+    // static async readMovieById(req, res) {
+    //     let { movieId } = req.params
+    //     try {
+    //         const movie = await Movie.readMovieById(movieId);
+    //         return res.status(200).json(movie)    
+    //     } catch (err) {
+    //         return res.status(500).json(err)
+    //     }
+    // }
+    // static async addMovie(req, res) {
+    //     let { title, overview, poster_path, popularity, tags } = req.body
+    //     let input = {
+    //         title,
+    //         overview,
+    //         poster_path,
+    //         popularity: Number(popularity),
+    //         tags: tags.split(',')
+    //     }
+    //     try {
+    //         const movie = await MovieModel.addMovie(input)
+    //     } catch (err) {
+    //         return res.status(500).json(err)
+    //     }
+    // }
 }
 
 module.exports = MovieController
