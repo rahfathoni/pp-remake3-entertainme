@@ -79,7 +79,7 @@ class MovieController {
         }
         Movie.updateMovie(movieId, update)
             .then(data => {
-                if(data.n === 0) {
+                if(data.result.n === 0) {
                     return res.status(404).json({
                         message: 'Document in Movies not found'
                     })

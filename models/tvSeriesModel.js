@@ -21,6 +21,12 @@ class TvSeries {
         return tvSeries.deleteOne({ _id: ObjectId(tvSeriesId) })
     }
     
+    static updateTvSeries(tvSeriesId, newTvSeries) {
+        return tvSeries.updateOne(
+            { _id: ObjectId(tvSeriesId) },
+            { $set: newTvSeries }
+        )
+    }
 }
 
 module.exports = TvSeries

@@ -24,7 +24,7 @@ class Movie {
     static updateMovie(movieId, updateMovie) {
         return movie.updateOne(
             { _id: ObjectId(movieId) },
-            { $set: {updateMovie} }
+            { $set: updateMovie }
         )
     }
 }

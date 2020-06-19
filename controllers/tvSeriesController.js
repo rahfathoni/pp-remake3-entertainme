@@ -66,6 +66,33 @@ class tvSeriesController {
             })
     }
 
+    static updateTvSeries(req, res) {
+        let { tvSeriesId } = req.params
+        let { title, overview, poster_path, popularity, tags } = req.body
+        let update = {
+            title,
+            overview,
+            poster_path,
+            popularity: Number(popularity),
+            tags: tags.split(',')
+        }
+        TvSeries.updateTvSeries(tvSeriesId, update)
+            .then(data => {
+                if(data.result.n === 0) {
+                    return res.status(404).json({
+                        message: 'Document in TvSeries not found'
+                    })
+                }
+                else {
+                    return res.status(200).json({
+                        message: 'Update Document in TvSeries Success'
+                    })
+                }
+            })
+            .catch(err => {
+                return res.status(500).json(err)
+            })
+    }
 }
 
 module.exports = tvSeriesController

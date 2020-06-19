@@ -15,5 +15,6 @@ router.get('/tvSeries/', TvSeriesController.readTvSeries)
 router.get('/tvSeries/:tvSeriesId', TvSeriesController.readTvSeriesById)
 router.post('/tvSeries', TvSeriesController.addTvSeries)
 router.delete('/tvSeries/:tvSeriesId', TvSeriesController.deleteTvSeries)
+router.put('/tvSeries/:tvSeriesId', TvSeriesController.updateTvSeries)
 
 module.exports = router;
