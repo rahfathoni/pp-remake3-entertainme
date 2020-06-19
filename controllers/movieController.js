@@ -47,7 +47,53 @@ class MovieController {
             })
     }
 
+    static deleteMovie(req, res) {
+        let { movieId } = req.params
+        Movie.deleteMovie(movieId)
+            .then(data => {
+                if(data.deletedCount === 0){
+                    return res.status(404).json({
+                        message: 'Document in Movies not found'
+                    })
+                }
+                else {
+                    return res.status(200).json({
+                        message: 'Delete Document in Movies Success'
+                    })
+                }
+            })
+            .catch(err => {
+                return res.status(500).json(err)
+            })
+    }
 
+    static updateMovie(req, res) {
+        let { movieId } = req.params
+        let { title, overview, poster_path, popularity, tags } = req.body
+        let update = {
+            title,
+            overview,
+            poster_path,
+            popularity: Number(popularity),
+            tags: tags.split(',')
+        }
+        Movie.updateMovie(movieId, update)
+            .then(data => {
+                if(data.n === 0) {
+                    return res.status(404).json({
+                        message: 'Document in Movies not found'
+                    })
+                }
+                else {
+                    return res.status(201).json({
+                        message: 'Update Document in Movies Success'
+                    })
+                }
+            })
+            .catch(err => {
+                return res.status(500).json(err)
+            })
+    }
     // catatan pribadi
     // cara 2 dengna async
     // static async readMovies(req, res) {

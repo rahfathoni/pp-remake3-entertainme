@@ -10,11 +10,22 @@ class Movie {
     }
 
     static readMovieById(movieId) {
-        return movie.findOne({ _id: ObjectId(movieId)})
+        return movie.findOne({ _id: ObjectId(movieId) })
     }
 
     static addMovie(newMovie) {
         return movie.insertOne(newMovie)
+    }
+
+    static deleteMovie(movieId) {
+        return movie.deleteOne({ _id: ObjectId(movieId) })
+    }
+
+    static updateMovie(movieId, updateMovie) {
+        return movie.updateOne(
+            { _id: ObjectId(movieId) },
+            { $set: {updateMovie} }
+        )
     }
 }
 

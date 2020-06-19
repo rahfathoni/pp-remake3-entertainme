@@ -16,6 +16,11 @@ class TvSeries {
     static addTvSeries(newTvSeries) {
         return tvSeries.insertOne(newTvSeries)
     }
+
+    static deleteTvSeries(tvSeriesId) {
+        return tvSeries.deleteOne({ _id: ObjectId(tvSeriesId) })
+    }
+    
 }
 
 module.exports = TvSeries
