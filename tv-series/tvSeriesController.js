@@ -1,11 +1,12 @@
-const axios = require('axios')
-const BASE_URL = 'http://localhost:3002'
+const TvSeries = require('./tvSeriesModel')
 
 class tvSeriesController {
     static readTvSeries(req, res) {
-        axios.get(`${BASE_URL}/tvSeries`)
-            .then(({ data }) => {
-                return res.status(200).json(data)
+        TvSeries.readTvSeries()
+            .then(data => {
+                return res.status(200).json({ 
+                    tvSeries: data
+                })
             })
             .catch(err => {
                 return res.status(500).json(err)
@@ -14,9 +15,11 @@ class tvSeriesController {
 
     static readTvSeriesById(req, res) {
         let { tvSeriesId } = req.params
-        axios.get(`${BASE_URL}/tvSeries/${tvSeriesId}`)
-            .then(({ data }) => {
-                return res.status(200).json(data)
+        TvSeries.readTvSeriesById(tvSeriesId)
+            .then(data => {
+                return res.status(200).json({
+                    tvSeries: data
+                })
             })
             .catch(err => {
                 return res.status(500).json(err)
@@ -29,12 +32,14 @@ class tvSeriesController {
             title,
             overview,
             poster_path,
-            popularity,
-            tags
+            popularity: Number(popularity),
+            tags: tags.split(',')
         }
-        axios.post(`${BASE_URL}/tvSeries`, input)
-            .then(({ data }) => {
-                return res.status(201).json(data)
+        TvSeries.addTvSeries(input)
+            .then(data => {
+                return res.status(201).json({
+                    tvSeries: data.ops
+                })
             })
             .catch(err => {
                 return res.status(500).json(err)
@@ -43,19 +48,21 @@ class tvSeriesController {
 
     static deleteTvSeries(req, res) {
         let { tvSeriesId } = req.params
-        axios.delete(`${BASE_URL}/tvSeries/${tvSeriesId}`)
-            .then(({ data }) => {
-                return res.status(200).json({data})
-            })
-            .catch(err => {
-                if(err.message === 'Request failed with status code 404'){
+        TvSeries.deleteTvSeries(tvSeriesId)
+            .then(data => {
+                if(data.deletedCount === 0){
                     return res.status(404).json({
                         message: 'Document in TvSeries not found'
                     })
                 }
                 else {
-                    return res.status(500).json(err)
+                    return res.status(200).json({
+                        message: 'Delete Document in TvSeries Success'
+                    })
                 }
+            })
+            .catch(err => {
+                return res.status(500).json(err)
             })
     }
 
@@ -66,22 +73,24 @@ class tvSeriesController {
             title,
             overview,
             poster_path,
-            popularity,
-            tags
+            popularity: Number(popularity),
+            tags: tags.split(',')
         }
-        axios.put(`${BASE_URL}/tvSeries/${tvSeriesId}`, update)
-            .then(({ data }) => {
-                return res.status(201).json(data)
-            })
-            .catch(err => {
-                if(err.message === 'Request failed with status code 404'){
+        TvSeries.updateTvSeries(tvSeriesId, update)
+            .then(data => {
+                if(data.result.n === 0) {
                     return res.status(404).json({
                         message: 'Document in TvSeries not found'
                     })
                 }
                 else {
-                    return res.status(500).json(err)
+                    return res.status(200).json({
+                        message: 'Update Document in TvSeries Success'
+                    })
                 }
+            })
+            .catch(err => {
+                return res.status(500).json(err)
             })
     }
 }

@@ -4,7 +4,7 @@ const url = 'mongodb://localhost:27017';
 const dbName = 'entertain-me';
 
 let db;
-const client = new MongoClient(url);
+const client = new MongoClient(url, { useUnifiedTopology: true });
 
 function connect(callback) {
     client.connect(function(error) {

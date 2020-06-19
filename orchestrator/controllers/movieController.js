@@ -1,13 +1,11 @@
-const Movie = require('../models/movieModel')
+const axios = require('axios')
+const BASE_URL = 'http://localhost:3001'
 
 class MovieController {
-    // cara 1
     static readMovies(req, res) {
-       Movie.readMovies()
-            .then(data => {
-                return res.status(200).json({ 
-                    movies: data
-                })
+        axios.get(`${BASE_URL}/movies`)
+            .then(({ data }) => {
+                return res.status(200).json(data)
             })
             .catch(err => {
                 return res.status(500).json(err)
@@ -16,11 +14,9 @@ class MovieController {
 
     static readMovieById(req, res) {
         let { movieId } = req.params
-        Movie.readMovieById(movieId)
-            .then(data => {
-                return res.status(200).json({
-                    movie: data
-                })
+        axios.get(`${BASE_URL}/movies/${movieId}`)
+            .then(({ data }) => {
+                return res.status(200).json(data)
             })
             .catch(err => {
                 return res.status(500).json(err)
@@ -29,18 +25,18 @@ class MovieController {
 
     static addMovie(req, res) {
         let { title, overview, poster_path, popularity, tags } = req.body
+        // input real value from client, fixing input in microservices
         let input = {
             title,
             overview,
             poster_path,
-            popularity: Number(popularity),
-            tags: tags.split(',')
+            popularity,
+            tags
         }
-        Movie.addMovie(input)
-            .then(data => {
-                return res.status(201).json({
-                    movie: data.ops
-                })
+        // input already in object as req.body to movie microservices
+        axios.post(`${BASE_URL}/movies`, input)
+            .then(({ data }) => {
+                return res.status(201).json(data)
             })
             .catch(err => {
                 return res.status(500).json(err)
@@ -49,21 +45,19 @@ class MovieController {
 
     static deleteMovie(req, res) {
         let { movieId } = req.params
-        Movie.deleteMovie(movieId)
-            .then(data => {
-                if(data.deletedCount === 0){
+        axios.delete(`${BASE_URL}/movies/${movieId}`)
+            .then(({ data }) => {
+                return res.status(200).json({data})
+            })
+            .catch(err => {
+                if(err.message === 'Request failed with status code 404'){
                     return res.status(404).json({
                         message: 'Document in Movies not found'
                     })
                 }
                 else {
-                    return res.status(200).json({
-                        message: 'Delete Document in Movies Success'
-                    })
+                    return res.status(500).json(err)
                 }
-            })
-            .catch(err => {
-                return res.status(500).json(err)
             })
     }
 
@@ -74,61 +68,24 @@ class MovieController {
             title,
             overview,
             poster_path,
-            popularity: Number(popularity),
-            tags: tags.split(',')
+            popularity,
+            tags
         }
-        Movie.updateMovie(movieId, update)
-            .then(data => {
-                if(data.result.n === 0) {
+        axios.put(`${BASE_URL}/movies/${movieId}`, update)
+            .then(({ data }) => {
+                return res.status(201).json(data)
+            })
+            .catch(err => {
+                if(err.message === 'Request failed with status code 404'){
                     return res.status(404).json({
                         message: 'Document in Movies not found'
                     })
                 }
                 else {
-                    return res.status(201).json({
-                        message: 'Update Document in Movies Success'
-                    })
+                    return res.status(500).json(err)
                 }
             })
-            .catch(err => {
-                return res.status(500).json(err)
-            })
     }
-    // catatan pribadi
-    // cara 2 dengna async
-    // static async readMovies(req, res) {
-    //     try {
-    //         // readMovies bellow from model
-    //         const movies = await Movie.readMovies();
-    //         return res.status(200).json(movies)
-    //     } catch (err) {
-    //         return res.status(500).json(err)
-    //     }
-    // }
-    // static async readMovieById(req, res) {
-    //     let { movieId } = req.params
-    //     try {
-    //         const movie = await Movie.readMovieById(movieId);
-    //         return res.status(200).json(movie)    
-    //     } catch (err) {
-    //         return res.status(500).json(err)
-    //     }
-    // }
-    // static async addMovie(req, res) {
-    //     let { title, overview, poster_path, popularity, tags } = req.body
-    //     let input = {
-    //         title,
-    //         overview,
-    //         poster_path,
-    //         popularity: Number(popularity),
-    //         tags: tags.split(',')
-    //     }
-    //     try {
-    //         const movie = await MovieModel.addMovie(input)
-    //     } catch (err) {
-    //         return res.status(500).json(err)
-    //     }
-    // }
 }
 
 module.exports = MovieController

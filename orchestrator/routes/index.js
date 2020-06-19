@@ -1,20 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const MovieController = require('../controllers/movieController');
-const TvSeriesController = require('../controllers/tvSeriesController');
+const movieRouter = require('./movieRouter')
+const tvSeriesRouter = require('./tvSeriesRouter')
 
-// movies
-router.get('/movies/', MovieController.readMovies)
-router.get('/movies/:movieId', MovieController.readMovieById)
-router.post('/movies', MovieController.addMovie)
-router.delete('/movies/:movieId', MovieController.deleteMovie)
-router.put('/movies/:movieId', MovieController.updateMovie)
-
-// tvseries
-router.get('/tvSeries/', TvSeriesController.readTvSeries)
-router.get('/tvSeries/:tvSeriesId', TvSeriesController.readTvSeriesById)
-router.post('/tvSeries', TvSeriesController.addTvSeries)
-router.delete('/tvSeries/:tvSeriesId', TvSeriesController.deleteTvSeries)
-router.put('/tvSeries/:tvSeriesId', TvSeriesController.updateTvSeries)
+router.get('/', (req, res) => {
+    res.status(200).json({
+        message: `EntertainMe working`
+    })
+})
+router.use('/movies', movieRouter)
+router.use('/tvSeries', tvSeriesRouter)
 
 module.exports = router;
