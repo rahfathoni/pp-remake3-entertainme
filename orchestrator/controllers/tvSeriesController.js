@@ -1,20 +1,35 @@
 const axios = require('axios')
-const BASE_URL = 'http://localhost:3002'
+const redis = require('../config/redis')
+const BASE_URL_TVSERIES = 'http://localhost:3002'
 
 class tvSeriesController {
-    static readTvSeries(req, res) {
-        axios.get(`${BASE_URL}/tvSeries`)
-            .then(({ data }) => {
-                return res.status(200).json(data)
-            })
-            .catch(err => {
-                return res.status(500).json(err)
-            })
+    static async readTvSeries(req, res) {
+        try {
+            const tvSeriesCache = await redis.get('tvSeries')
+            if(tvSeriesCache) {
+                // console.log('---- ca tv') ///////
+                res.status(200).json(JSON.parse(tvSeriesCache))
+            }
+            else {
+                // console.log('-----query tv alone'); ////////////
+                axios.get(`${BASE_URL_TVSERIES}/tvSeries`)
+                    .then(({ data }) => {
+                        redis.set('tvSeries', JSON.stringify(data))
+                        return res.status(200).json(data)
+                    })
+                    .catch(err => {
+                        return res.status(500).json(err)
+                    })
+            }
+        } 
+        catch (error) {
+            return res.status(500).json(err)
+        }
     }
 
     static readTvSeriesById(req, res) {
         let { tvSeriesId } = req.params
-        axios.get(`${BASE_URL}/tvSeries/${tvSeriesId}`)
+        axios.get(`${BASE_URL_TVSERIES}/tvSeries/${tvSeriesId}`)
             .then(({ data }) => {
                 return res.status(200).json(data)
             })
@@ -32,8 +47,9 @@ class tvSeriesController {
             popularity,
             tags
         }
-        axios.post(`${BASE_URL}/tvSeries`, input)
+        axios.post(`${BASE_URL_TVSERIES}/tvSeries`, input)
             .then(({ data }) => {
+                redis.del('tvSeries')
                 return res.status(201).json(data)
             })
             .catch(err => {
@@ -43,9 +59,10 @@ class tvSeriesController {
 
     static deleteTvSeries(req, res) {
         let { tvSeriesId } = req.params
-        axios.delete(`${BASE_URL}/tvSeries/${tvSeriesId}`)
+        axios.delete(`${BASE_URL_TVSERIES}/tvSeries/${tvSeriesId}`)
             .then(({ data }) => {
-                return res.status(200).json({data})
+                redis.del('tvSeries')
+                return res.status(200).json(data)
             })
             .catch(err => {
                 if(err.message === 'Request failed with status code 404'){
@@ -69,8 +86,9 @@ class tvSeriesController {
             popularity,
             tags
         }
-        axios.put(`${BASE_URL}/tvSeries/${tvSeriesId}`, update)
+        axios.put(`${BASE_URL_TVSERIES}/tvSeries/${tvSeriesId}`, update)
             .then(({ data }) => {
+                redis.del('tvSeries')
                 return res.status(201).json(data)
             })
             .catch(err => {

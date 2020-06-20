@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const movieRouter = require('./movieRouter')
 const tvSeriesRouter = require('./tvSeriesRouter')
+const combineRouter = require('./combineRouter')
 
 router.get('/', (req, res) => {
     res.status(200).json({
@@ -10,5 +11,6 @@ router.get('/', (req, res) => {
 })
 router.use('/movies', movieRouter)
 router.use('/tvSeries', tvSeriesRouter)
+router.use('/entertainme', combineRouter)
 
 module.exports = router;
