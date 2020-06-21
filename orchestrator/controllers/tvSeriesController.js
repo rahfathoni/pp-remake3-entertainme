@@ -65,8 +65,8 @@ class tvSeriesController {
             title,
             overview,
             poster_path,
-            popularity,
-            tags
+            popularity: Number(popularity),
+            tags: tags.split(',')
         }
         axios.post(`${BASE_URL_TVSERIES}/tvSeries`, input)
             .then(({ data }) => {
@@ -104,8 +104,8 @@ class tvSeriesController {
             title,
             overview,
             poster_path,
-            popularity,
-            tags
+            popularity: Number(popularity),
+            tags: tags.split(',')
         }
         axios.put(`${BASE_URL_TVSERIES}/tvSeries/${tvSeriesId}`, update)
             .then(({ data }) => {

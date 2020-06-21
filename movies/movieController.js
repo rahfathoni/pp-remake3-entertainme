@@ -29,12 +29,13 @@ class MovieController {
 
     static addMovie(req, res) {
         let { title, overview, poster_path, popularity, tags } = req.body
+        // req.body already in correct datatype
         let input = {
             title,
             overview,
             poster_path,
-            popularity: Number(popularity),
-            tags: tags.split(',')
+            popularity,
+            tags
         }
         Movie.addMovie(input)
             .then(data => {
@@ -74,8 +75,8 @@ class MovieController {
             title,
             overview,
             poster_path,
-            popularity: Number(popularity),
-            tags: tags.split(',')
+            popularity,
+            tags
         }
         Movie.updateMovie(movieId, update)
             .then(data => {

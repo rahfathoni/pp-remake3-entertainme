@@ -32,8 +32,8 @@ class tvSeriesController {
             title,
             overview,
             poster_path,
-            popularity: Number(popularity),
-            tags: tags.split(',')
+            popularity,
+            tags
         }
         TvSeries.addTvSeries(input)
             .then(data => {
@@ -73,8 +73,8 @@ class tvSeriesController {
             title,
             overview,
             poster_path,
-            popularity: Number(popularity),
-            tags: tags.split(',')
+            popularity,
+            tags
         }
         TvSeries.updateTvSeries(tvSeriesId, update)
             .then(data => {

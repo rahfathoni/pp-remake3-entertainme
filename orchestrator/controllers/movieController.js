@@ -70,14 +70,14 @@ class MovieController {
 
     static addMovie(req, res) {
         let { title, overview, poster_path, popularity, tags } = req.body
-        // input real value from client, fixing input in microservices
         let input = {
             title,
             overview,
             poster_path,
-            popularity,
-            tags
+            popularity: Number(popularity),
+            tags: tags.split(',')
         }
+        // input already in correct data type before send to microservices
         // input already in object as req.body to movie microservices
         axios.post(`${BASE_URL_MOVIES}/movies`, input)
             .then(({ data }) => {
@@ -116,8 +116,8 @@ class MovieController {
             title,
             overview,
             poster_path,
-            popularity,
-            tags
+            popularity: Number(popularity),
+            tags: tags.split(',')
         }
         axios.put(`${BASE_URL_MOVIES}/movies/${movieId}`, update)
             .then(({ data }) => {
