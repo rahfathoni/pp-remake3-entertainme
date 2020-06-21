@@ -5,10 +5,10 @@ const BASE_URL_MOVIES = 'http://localhost:3001'
 class MovieController {
     static async readMovies(req, res) {
         try {
-            const movieCache = await redis.get('movies')
-            if(movieCache){
+            const moviesCache = await redis.get('movies')
+            if(moviesCache){
                 // console.log('---ca movie') /////////////
-                res.status(200).json(JSON.parse(movieCache))
+                res.status(200).json(JSON.parse(moviesCache))
             }
             else {
                 // console.log('-----query movie alone'); ////////////
@@ -28,16 +28,44 @@ class MovieController {
         }
     }
 
-    static readMovieById(req, res) {
-        // no need redis, because cant get spesific item from redis
+    static async readMovieById(req, res) {
         let { movieId } = req.params
-        axios.get(`${BASE_URL_MOVIES}/movies/${movieId}`)
-            .then(({ data }) => {
-                return res.status(200).json(data)
-            })
-            .catch(err => {
-                return res.status(500).json(err)
-            })
+        try {
+            const moviesCache = await redis.get('movies');
+            if(moviesCache){
+                // console.log('---id--find movie cache')
+                let arrayMovies = JSON.parse(moviesCache).movies
+                for (let i = 0; i < arrayMovies.length;i++){
+                    if(arrayMovies[i]._id === movieId){
+                        return res.status(200).json({
+                            movie: arrayMovies[i]
+                        })
+                    }
+                }
+                return res.status(200).json({movie: null})
+            }
+            else {
+                // console.log('---db movie')
+                axios.get(`${BASE_URL_MOVIES}/movies/${movieId}`)
+                    .then(({ data }) => {
+                        return res.status(200).json(data)
+                    })
+                    .catch(err => {
+                        return res.status(500).json(err)
+                    })
+            }
+        }
+        catch (err) {
+            return res.status(500).json(err)
+        }
+        // if no need to find in redist
+        // axios.get(`${BASE_URL_MOVIES}/movies/${movieId}`)
+        //     .then(({ data }) => {
+        //         return res.status(200).json(data)
+        //     })
+        //     .catch(err => {
+        //         return res.status(500).json(err)
+        //     })
     }
 
     static addMovie(req, res) {
