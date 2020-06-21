@@ -40,7 +40,7 @@ class MovieController {
         Movie.addMovie(input)
             .then(data => {
                 return res.status(201).json({
-                    movie: data.ops
+                    movie: data.ops[0]
                 })
             })
             .catch(err => {

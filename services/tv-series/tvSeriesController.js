@@ -38,7 +38,7 @@ class tvSeriesController {
         TvSeries.addTvSeries(input)
             .then(data => {
                 return res.status(201).json({
-                    tvSeries: data.ops
+                    tvSeries: data.ops[0]
                 })
             })
             .catch(err => {
