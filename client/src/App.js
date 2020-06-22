@@ -1,12 +1,33 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from 'react-router-dom';
 import { ApolloProvider } from '@apollo/react-hooks'
 import client from './config/graphql'
 import Home from './pages/Home'
+import MovieForm from './pages/MovieForm'
+import TvSeriesForm from './pages/TvSeriesForm'
+import NavigationBar from './components/NavigationBar'
 
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Home />
+      <Router>
+        <NavigationBar />
+        <Switch>
+          <Route exact path='/'>
+            <Home />
+          </Route>
+          <Route path='/addMovie'>
+            <MovieForm />
+          </Route>
+          <Route path='/addTvSeries'>
+            <TvSeriesForm />
+          </Route>
+        </Switch>
+      </Router>
     </ApolloProvider>
   );
 }

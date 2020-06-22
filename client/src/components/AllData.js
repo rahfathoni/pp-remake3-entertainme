@@ -1,8 +1,9 @@
 import React from 'react';
-import {} from 'react-bootstrap'
+import { Container, Row } from 'react-bootstrap'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 import LoadingSpinner from './LoadingSpinner'
+import ShowCard from './ShowCard'
 
 const GET_ALL_DATA = gql`
     {
@@ -30,17 +31,16 @@ const AllData = () => {
     if(error) return <h1>ERROR {error.message}</h1>
 
     return (
-        <>
-            <div className='mt-3 text-center'>
-                <h5>All</h5>
+        <Container>
+            <Row>
                 {data.movies.map((movie, i) => {
-                    return <p key={i}>{i} {movie._id} - {movie.title} - {movie.poster_path} - {movie.popularity} - {movie.tags}</p>
+                    return <ShowCard data={movie} key={i} />
                 })}
                 {data.tvSeries.map((tv, i) => {
-                    return <p key={i}>{i} {tv._id} - {tv.title} - {tv.poster_path} - {tv.popularity} - {tv.tags}</p>
+                    return <ShowCard data={tv} key={i} />
                 })}
-            </div>
-        </>
+            </Row>
+        </Container>
     );
 }
 
