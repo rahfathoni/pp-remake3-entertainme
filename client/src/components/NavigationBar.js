@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 const NavigationBar = () => {
@@ -10,8 +10,11 @@ const NavigationBar = () => {
             <Navbar.Collapse id="navbar-nav">
                 <Nav className="mr-auto">
                     <Nav.Link as={Link} href='#' to='/' className="text-dark"><strong>Home</strong></Nav.Link>
-                    <Nav.Link as={Link} href='#' to='/addMovie' className="text-dark"><strong>Add Movie</strong></Nav.Link>
-                    <Nav.Link as={Link} href='#' to='/addTvSeries' className="text-dark"><strong>Add Tv Series</strong></Nav.Link>
+                    <NavDropdown title={<strong>Add</strong>}>
+                        <NavDropdown.Item as={Link} href='#' to='/addMovie' className="text-dark bg-white"><strong>Add Movie</strong></NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item as={Link} href='#' to='/addTvSeries' className="text-dark bg-white"><strong>Add Tv Series</strong></NavDropdown.Item>    
+                    </NavDropdown>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

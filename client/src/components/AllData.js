@@ -10,6 +10,7 @@ const GET_ALL_DATA = gql`
         movies {
             _id,
             title,
+            overview
             poster_path,
             popularity,
             tags
@@ -17,6 +18,7 @@ const GET_ALL_DATA = gql`
           tvSeries {
             _id,
             title,
+            overview
             poster_path,
             popularity,
             tags

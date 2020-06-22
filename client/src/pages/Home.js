@@ -7,21 +7,39 @@ import TvSeriesData from '../components/TvSeriesData'
 const Home = () => {
     
     return (
-        <Container className='my-3'>
+        <Container className='my-5'>
             <Row>
                 <Col>
                     <Tabs variant="tabs" defaultActiveKey="all">
                         <Tab eventKey="all" title="All">
                             <AllData />
-                            <hr />
+                            {/* <hr /> */}
+                            <hr style={{
+                                color: 'white',
+                                backgroundColor: 'white',
+                                height: 1
+                                }}
+                            />
                         </Tab>
                         <Tab eventKey="movie" title="Movie">
                             <MovieData />
-                            <hr />
+                            {/* <hr /> */}
+                            <hr style={{
+                                color: 'white',
+                                backgroundColor: 'white',
+                                height: 1
+                                }}
+                            />
                         </Tab>
-                        <Tab eventKey="tvSeries" title="tvSeries">
+                        <Tab eventKey="tvSeries" title="Tv Series">
                             <TvSeriesData />
-                            <hr />
+                            {/* <hr /> */}
+                            <hr style={{
+                                color: 'white',
+                                backgroundColor: 'white',
+                                height: 1
+                                }}
+                            />
                         </Tab>
                     </Tabs>
                 </Col>
