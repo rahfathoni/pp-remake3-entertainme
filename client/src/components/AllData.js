@@ -15,7 +15,7 @@ const GET_ALL_DATA = gql`
             popularity,
             tags
         }
-          tvSeries {
+        tvSeries {
             _id,
             title,
             overview
@@ -36,10 +36,10 @@ const AllData = () => {
         <Container>
             <Row>
                 {data.movies.map((movie, i) => {
-                    return <ShowCard data={movie} key={i} />
+                    return <ShowCard data={movie} navigation={`/detail/movies/${movie._id}`} key={i} />
                 })}
                 {data.tvSeries.map((tv, i) => {
-                    return <ShowCard data={tv} key={i} />
+                    return <ShowCard data={tv} navigation={`/detail/tvSeries/${tv._id}`} key={i} />
                 })}
             </Row>
         </Container>

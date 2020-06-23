@@ -13,33 +13,12 @@ const Home = () => {
                     <Tabs variant="tabs" defaultActiveKey="all">
                         <Tab eventKey="all" title="All">
                             <AllData />
-                            {/* <hr /> */}
-                            <hr style={{
-                                color: 'white',
-                                backgroundColor: 'white',
-                                height: 1
-                                }}
-                            />
                         </Tab>
                         <Tab eventKey="movie" title="Movie">
                             <MovieData />
-                            {/* <hr /> */}
-                            <hr style={{
-                                color: 'white',
-                                backgroundColor: 'white',
-                                height: 1
-                                }}
-                            />
                         </Tab>
                         <Tab eventKey="tvSeries" title="Tv Series">
                             <TvSeriesData />
-                            {/* <hr /> */}
-                            <hr style={{
-                                color: 'white',
-                                backgroundColor: 'white',
-                                height: 1
-                                }}
-                            />
                         </Tab>
                     </Tabs>
                 </Col>

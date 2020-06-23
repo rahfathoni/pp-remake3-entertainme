@@ -132,7 +132,7 @@ const TvSeriesForm = () => {
                             onChange={inputChange} name="poster_path" value={inputTvSeries.poster_path} required/>
                         </Form.Group>
                         <div className="text-center">
-                            <Image className="border border-white" src={inputTvSeries.poster_path} alt={inputTvSeries.poster_path} fluid rounded/>
+                            <Image style={{height: '450px'}} className="border border-white" src={inputTvSeries.poster_path} alt={inputTvSeries.poster_path} fluid rounded/>
                         </div>
                         <Form.Group>
                             <Form.Label><strong>Popularity (from 0.1 to 10.0)</strong></Form.Label>

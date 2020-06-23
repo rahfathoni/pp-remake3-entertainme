@@ -28,7 +28,7 @@ const TvSeriesData = () => {
         <Container>
             <Row>
                 {data.tvSeries.map((tv, i) => {
-                    return <ShowCard data={tv} key={i} />
+                    return <ShowCard data={tv} navigation={`/detail/tvSeries/${tv._id}`} key={i} />
                 })}
             </Row>
         </Container>

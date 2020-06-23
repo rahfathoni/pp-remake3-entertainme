@@ -5,7 +5,14 @@ import { Link } from 'react-router-dom'
 const NavigationBar = () => {
     return (
         <Navbar collapseOnSelect bg="light" expand="md">
-            <Navbar.Brand className="text-dark"><strong>MOVIE & TV DATABASE</strong></Navbar.Brand>
+            <Navbar.Brand className="text-dark">
+                <div className="my-0">
+                    <h5 className="my-0"><strong>EntertainMe!</strong></h5>
+                </div>
+                <div className="my-0">
+                    <p className="my-0">Movie & Tv Database</p>
+                </div>
+            </Navbar.Brand>
             <Navbar.Toggle className="bg-dark" aria-controls="navbar-nav" />
             <Navbar.Collapse id="navbar-nav">
                 <Nav className="mr-auto">

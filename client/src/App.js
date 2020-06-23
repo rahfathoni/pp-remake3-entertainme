@@ -10,6 +10,8 @@ import Home from './pages/Home'
 import MovieForm from './pages/MovieForm'
 import TvSeriesForm from './pages/TvSeriesForm'
 import NavigationBar from './components/NavigationBar'
+import MovieDetail from './pages/MovieDetail'
+import TvSeriesDetail from './pages/TvSeriesDetail'
 
 function App() {
   return (
@@ -25,6 +27,12 @@ function App() {
           </Route>
           <Route path='/addTvSeries'>
             <TvSeriesForm />
+          </Route>
+          <Route path='/detail/movies/:movieId'>
+            <MovieDetail />
+          </Route>
+          <Route path='/detail/tvSeries/:tvSeriesId'>
+            <TvSeriesDetail />
           </Route>
         </Switch>
       </Router>
